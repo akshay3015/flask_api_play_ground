@@ -1,8 +1,14 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
 
-app = Flask(__name__)
+'''
+JWT --> JSON Web Token 
+for Obfuscation of data
 
+'''
+
+app = Flask(__name__)
+app.secret_key = "secret"
 api = Api(app)
 
 items = []
