@@ -1,5 +1,7 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
+from flask_jwt import JWT, jwt_required
+from security import authenticate, identity
 
 '''
 JWT --> JSON Web Token 
@@ -11,6 +13,8 @@ app = Flask(__name__)
 app.secret_key = "secret"
 api = Api(app)
 
+jwt = JWT(app, authenticate, identity)  # /auth
+
 items = []
 
 
@@ -18,11 +22,13 @@ items = []
 class Item(Resource):
     """docstring for ."""
 
+    @jwt_required()
     def get(self, name):
         # returns first item found by filter function
         item = next(filter(lambda x: x['name'] == name, items), None)  # None ---> default  val if no match found)
         return {'item': item}, 200 if item else 404  # 200 OK 404 not found
 
+    @jwt_required()
     def post(self, name):
         '''
         request.get_json()
@@ -42,6 +48,7 @@ class Item(Resource):
 
 # handling of multiple items
 class ItemList(Resource):
+    @jwt_required()
     def get(self):
         return {'items': items}, 200  # OK
 
