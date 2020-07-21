@@ -3,6 +3,7 @@ from flask_restful import Resource, Api
 from flask_jwt import JWT, jwt_required
 from security import authenticate, identity
 import mysql.connector
+from user import RegisterUser
 
 '''
 JWT --> JSON Web Token 
@@ -69,6 +70,7 @@ class ItemList(Resource):
 
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
+api.add_resource(RegisterUser, '/register')
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
