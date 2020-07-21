@@ -51,7 +51,7 @@ class Item(Resource):
     def post(self, name):
         data = request.get_json(silent=True)
         firstName = data['name']
-        
+
         lastName = data['password']
         cur = database.cursor()
         cur.execute("INSERT INTO user(username, password) VALUES (%s, %s)", (firstName, lastName))
@@ -70,4 +70,5 @@ class ItemList(Resource):
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 
-app.run(port=5000, debug=True)
+if __name__ == '__main__':
+    app.run(port=5000, debug=True)
